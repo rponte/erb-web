@@ -27,10 +27,10 @@ public class Funcionario {
 	@Temporal(TemporalType.DATE)
 	private Date dataDeNascimento;
 	
+	private BigDecimal salario;
+	
 	@Enumerated(EnumType.STRING)
 	private Cargo cargo;
-	
-	private BigDecimal salario;
 
 	public Integer getId() {
 		return id;
