@@ -13,3 +13,4 @@ classes/
 .vagrant
 .ant-targets-build.xml
 /bin
+/build/

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      	  xmlns:h="http://xmlns.jcp.org/jsf/html">
+	<h:head>
+		<title>ERP Web</title>
+		<h:outputStylesheet library="css" name="app.css" />
+	</h:head>
+	<h:body>
+		<div id="cabecalho">
+			<ul id="menu-principal">
+				<li>
+					<h:link value="Funcionários" outcome="/pages/funcionarios" />
+				</li>
+			</ul>
+		</div>
+		<h:messages id="msg" errorClass="errors" infoClass="notice"/> 
+		<div id="conteudo">
+			<div id="container">
+				<h:form id="form">
+					<h1>
+						<h:outputText value="Novo Funcionário" 
+							rendered="#{empty funcionarioBean.funcionario.id}" />
+		
+						<h:outputText value="Editar Funcionário" 
+							rendered="#{not empty funcionarioBean.funcionario.id}" />
+					</h1>
+					
+					<h:inputHidden value="#{funcionarioBean.funcionario.id}" />
+				
+						<h:outputLabel value="Nome" for="nome" />
+						<h:inputText id="nome" value="#{funcionarioBean.funcionario.nome}" 
+							styleClass="texto-longo" required="true"/>
+			
+						<h:outputLabel value="Endereço" for="endereco" />
+						<h:inputTextarea id="endereco" 
+							value="#{funcionarioBean.funcionario.endereco}" rows="3"
+							styleClass="texto-longo"/>
+			
+						<h:outputLabel value="Data de Nascimento" for="data" />
+						<h:inputText id="data" value="#{funcionarioBean.funcionario.dataDeNascimento}"
+							required="true">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+							<f:validator validatorId="maiorDeIdadeValidator"/>
+						</h:inputText>
+						
+						<h:outputLabel value="Salário" for="salario" />
+						<h:inputText id="salario" value="#{funcionarioBean.funcionario.salario}">
+							<f:convertNumber locale="pt_BR" />
+						</h:inputText>
+						
+						<h:outputLabel value="Cargo" for="cargo" />
+						<h:selectOneMenu id="cargo" value="#{funcionarioBean.funcionario.cargo}">
+							<f:selectItem itemValue="DBA" itemLabel="DBA"/>
+							<f:selectItem itemValue="DESENVOLVEDOR" itemLabel="Desenvolvedor"/>
+							<f:selectItem itemValue="ANALISTA_DE_SISTEMAS" itemLabel="Analista de Sistemas"/>
+							<f:selectItem itemValue="GERENTE_DE_PROJETOS" itemLabel="Gerente de Projetos"/>
+						</h:selectOneMenu>
+		
+					<div class="acoes-principais">
+						<h:commandLink value="Cancelar" action="funcionarios" immediate="true">
+						</h:commandLink >
+						&#160;
+						<h:commandButton value="Salvar" action="#{funcionarioBean.salva}">
+							<f:ajax execute="@form" render="@form :msg" />
+						</h:commandButton>
+					</div>
+					
+					<h:dataTable value="#{funcionarioBean.funcionarios}" var="funcionario"
+						styleClass="dados" rowClasses="impar, par">
+						<h:column>
+							<f:facet name="header">ID</f:facet>
+								#{funcionario.id}
+						</h:column>
+						<h:column>
+							<f:facet name="header">Nome</f:facet>
+							#{funcionario.nome}
+						</h:column>
+						<h:column>
+							<f:facet name="header">Data de Nascimento</f:facet>
+							<h:outputText value="#{funcionario.dataDeNascimento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header">Cargo</f:facet>
+							#{funcionario.cargo.descricao}
+						</h:column>
+						<h:column>
+							<f:facet name="header">Ações</f:facet>
+							<h:commandLink value="remover" 
+								action="#{funcionarioBean.remove(funcionario)}" immediate="true">
+							</h:commandLink>
+							&#160;
+							<h:commandLink value="alterar" immediate="true">
+								<f:setPropertyActionListener value="#{funcionario}" 
+										target="#{funcionarioBean.funcionario}" />
+							</h:commandLink>
+						</h:column>
+					</h:dataTable>
+				</h:form>
+			</div>
+		</div>
+		
+		<div id="rodape">
+		     <div class="rodape-bar">
+				<strong>ERP Web</strong> - TriadWorks
+			</div>
+		</div>
+	</h:body>
+</html>
