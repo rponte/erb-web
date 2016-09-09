@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      	  xmlns:h="http://xmlns.jcp.org/jsf/html">
+      	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+      	  xmlns:p="http://primefaces.org/ui">
 	<h:head>
 		<title>ERP Web</title>
 		<h:outputStylesheet library="css" name="app.css" />
+		<h:outputScript library="js" name="primefaces-calendar-pt_BR.js"/>
 	</h:head>
 	<h:body>
 		<div id="cabecalho">
@@ -14,8 +16,25 @@
 				</li>
 			</ul>
 		</div>
-		<h:messages id="msg" errorClass="errors" infoClass="notice"/> 
+		
+		<p:outputPanel autoUpdate="true" rendered="false">
+			<h:messages id="msg" errorClass="errors" infoClass="notice" />
+		</p:outputPanel>
+		
+		<p:messages autoUpdate="true" rendered="false"/>
+		<p:growl autoUpdate="true"/>
+		 
 		<div id="conteudo">
+			<div id="ajax-loading">
+				<p:ajaxStatus>
+					<f:facet name="start">
+	                    <h:graphicImage library="imagens" name="ajax-loader.gif" />
+	                </f:facet>
+					<f:facet name="complete">
+						<h:outputText value="" />
+	                </f:facet>
+				</p:ajaxStatus>
+			</div>
 			<div id="container">
 				<h:form id="form">
 					<h1>
@@ -30,74 +49,73 @@
 				
 						<h:outputLabel value="Nome" for="nome" />
 						<h:inputText id="nome" value="#{funcionarioBean.funcionario.nome}" 
-							styleClass="texto-longo" required="true"/>
+							styleClass="texto-longo" required="true" label="Nome">
+							<f:validateRegex pattern="[a-zA-Z]+" />
+						</h:inputText>
 			
 						<h:outputLabel value="Endereço" for="endereco" />
 						<h:inputTextarea id="endereco" 
 							value="#{funcionarioBean.funcionario.endereco}" rows="3"
-							styleClass="texto-longo"/>
+							styleClass="texto-longo" label="Endereço" />
 			
 						<h:outputLabel value="Data de Nascimento" for="data" />
-						<h:inputText id="data" value="#{funcionarioBean.funcionario.dataDeNascimento}"
-							required="true">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
+						<p:calendar id="data" value="#{funcionarioBean.funcionario.dataDeNascimento}"
+							required="true" label="Data de Nascimento" pattern="dd/MM/yyyy" mask="true"
+							locale="pt">
 							<f:validator validatorId="maiorDeIdadeValidator"/>
-						</h:inputText>
+						</p:calendar>
 						
 						<h:outputLabel value="Salário" for="salario" />
-						<h:inputText id="salario" value="#{funcionarioBean.funcionario.salario}">
-							<f:convertNumber locale="pt_BR" />
-						</h:inputText>
+						<p:inputNumber id="salario" value="#{funcionarioBean.funcionario.salario}"
+							label="Salário" thousandSeparator="." decimalSeparator=",">
+						</p:inputNumber>
 						
 						<h:outputLabel value="Cargo" for="cargo" />
-						<h:selectOneMenu id="cargo" value="#{funcionarioBean.funcionario.cargo}">
+						<p:selectOneMenu id="cargo" value="#{funcionarioBean.funcionario.cargo}"
+							label="Cargo">
 							<f:selectItem itemValue="DBA" itemLabel="DBA"/>
 							<f:selectItem itemValue="DESENVOLVEDOR" itemLabel="Desenvolvedor"/>
 							<f:selectItem itemValue="ANALISTA_DE_SISTEMAS" itemLabel="Analista de Sistemas"/>
 							<f:selectItem itemValue="GERENTE_DE_PROJETOS" itemLabel="Gerente de Projetos"/>
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 		
 					<div class="acoes-principais">
-						<h:commandLink value="Cancelar" action="funcionarios" immediate="true">
+						<h:commandLink value="Cancelar" action="funcionarios.xhtml" immediate="true">
 						</h:commandLink >
 						&#160;
 						<h:commandButton value="Salvar" action="#{funcionarioBean.salva}">
-							<f:ajax execute="@form" render="@form :msg" />
+							<f:ajax execute="@form" render="@form"/>
 						</h:commandButton>
 					</div>
 					
-					<h:dataTable value="#{funcionarioBean.funcionarios}" var="funcionario"
-						styleClass="dados" rowClasses="impar, par">
-						<h:column>
-							<f:facet name="header">ID</f:facet>
-								#{funcionario.id}
-						</h:column>
-						<h:column>
-							<f:facet name="header">Nome</f:facet>
+					<p:dataTable value="#{funcionarioDataModel}" var="funcionario"
+						paginator="true" rows="5" lazy="true">
+						<p:column headerText="ID" style="width:5%">
+							#{funcionario.id}
+						</p:column>
+						<p:column headerText="Nome">
 							#{funcionario.nome}
-						</h:column>
-						<h:column>
-							<f:facet name="header">Data de Nascimento</f:facet>
+						</p:column>
+						<p:column headerText="Data de Nascimento">
 							<h:outputText value="#{funcionario.dataDeNascimento}">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header">Cargo</f:facet>
+						</p:column>
+						<p:column headerText="Cargo">
 							#{funcionario.cargo.descricao}
-						</h:column>
-						<h:column>
-							<f:facet name="header">Ações</f:facet>
+						</p:column>
+						<p:column headerText="Ações">
 							<h:commandLink value="remover" 
 								action="#{funcionarioBean.remove(funcionario)}" immediate="true">
+								<f:ajax render="@form" />
 							</h:commandLink>
 							&#160;
-							<h:commandLink value="alterar" immediate="true">
+							<h:commandLink value="alterar" immediate="true" action="funcionarios.xhtml">
 								<f:setPropertyActionListener value="#{funcionario}" 
 										target="#{funcionarioBean.funcionario}" />
 							</h:commandLink>
-						</h:column>
-					</h:dataTable>
+						</p:column>
+					</p:dataTable>
 				</h:form>
 			</div>
 		</div>

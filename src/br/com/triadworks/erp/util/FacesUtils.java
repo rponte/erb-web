@@ -1,19 +1,20 @@
 package br.com.triadworks.erp.util;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 public class FacesUtils {
 
-	public void limpa(UIComponent component) {
-	    if (component instanceof EditableValueHolder) {
-	        EditableValueHolder evh = (EditableValueHolder) component;
-	        evh.resetValue();
-	    }
-	    if (component.getChildCount()>0){
-	        for (UIComponent child : component.getChildren()) {
-	            this.limpa(child);
-	        }
-	    }
+	private FacesContext facesContext;
+
+	public FacesUtils() {
+		this.facesContext = FacesContext.getCurrentInstance();
+	}
+
+	public void adicionaMensagemDeSucesso(String mensagem) {
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem);
+		facesContext.addMessage(null, facesMessage);
 	}
 }

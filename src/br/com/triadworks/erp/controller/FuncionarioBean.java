@@ -29,20 +29,17 @@ public class FuncionarioBean {
 		} else {
 			dao.atualiza(this.funcionario);
 		}
-
 		this.funcionario = new Funcionario(); // limpa os campos
+		new FacesUtils().adicionaMensagemDeSucesso("Funcionário gravado com sucesso!");
 	}
 	
 	public void remove(Funcionario funcionario) {
 		FuncionarioDao dao = new FuncionarioDao();
 		dao.remove(funcionario);
+		new FacesUtils().adicionaMensagemDeSucesso("Funcionário removido com sucesso!");
 	}
 	
 	public void cancela() {
-		
-		UIComponent form = FacesContext.getCurrentInstance().getViewRoot().findComponent("form");
-//		new FacesUtils().limpa(form);
-		
 		this.funcionario = new Funcionario();
 	}
 
