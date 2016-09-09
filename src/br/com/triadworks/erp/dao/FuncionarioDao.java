@@ -77,4 +77,29 @@ public class FuncionarioDao {
 		}
 	}
 
+	public List<Funcionario> listaPaginada(int inicio, int quantidade) {
+		EntityManager manager = new JPAUtil().getEntityManager();
+		try {
+			return manager
+					.createQuery("select u from Funcionario u", Funcionario.class)
+					.setFirstResult(inicio)
+					.setMaxResults(quantidade)
+					.getResultList();
+		} finally {
+			manager.close();
+		}
+	}
+
+	public int contaTodos() {
+		EntityManager manager = new JPAUtil().getEntityManager();
+		try {
+			Long count = manager
+					.createQuery("select count(u) from Funcionario u", Long.class)
+					.getSingleResult();
+			return count.intValue();
+		} finally {
+			manager.close();
+		}
+	}
+
 }
