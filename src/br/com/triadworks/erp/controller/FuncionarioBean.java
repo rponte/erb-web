@@ -1,12 +1,10 @@
 package br.com.triadworks.erp.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 
+import br.com.triadworks.erp.controller.datamodel.FuncionarioDataModel;
 import br.com.triadworks.erp.dao.FuncionarioDao;
 import br.com.triadworks.erp.modelo.Funcionario;
 import br.com.triadworks.erp.util.FacesUtils;
@@ -15,6 +13,12 @@ import br.com.triadworks.erp.util.FacesUtils;
 public class FuncionarioBean {
 
 	private Funcionario funcionario = new Funcionario();
+	
+	private FuncionarioDataModel dataModel = new FuncionarioDataModel();
+	
+	public FuncionarioDataModel getDataModel() {
+		return dataModel;
+	}
 	
 	public List<Funcionario> getFuncionarios() {
 		FuncionarioDao dao = new FuncionarioDao();
