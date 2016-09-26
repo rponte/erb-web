@@ -75,27 +75,30 @@
 						</h:commandButton>
 					</div>
 					
-					<h:dataTable value="#{funcionarioBean.funcionarios}" var="funcionario"
-						styleClass="dados" rowClasses="impar, par">
-						<h:column style="width:5%">
+					<rich:dataTable value="#{funcionarioBean.funcionarios}" var="funcionario"
+						rows="5">
+						<f:facet name="footer">
+							<rich:dataScroller />
+						</f:facet>
+						<rich:column style="width:5%">
 							<f:facet name="header">ID</f:facet>
 							#{funcionario.id}
-						</h:column>
-						<h:column>
+						</rich:column>
+						<rich:column>
 							<f:facet name="header">Nome</f:facet>
 							#{funcionario.nome}
-						</h:column>
-						<h:column>
+						</rich:column>
+						<rich:column>
 							<f:facet name="header">Data de Nascimento</f:facet>
 							<h:outputText value="#{funcionario.dataDeNascimento}">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</h:outputText>
-						</h:column>
-						<h:column>
+						</rich:column>
+						<rich:column>
 							<f:facet name="header">Cargo</f:facet>
 							#{funcionario.cargo.descricao}
-						</h:column>
-						<h:column>
+						</rich:column>
+						<rich:column>
 							<f:facet name="header">Ações</f:facet>
 							<h:commandLink value="remover" 
 								action="#{funcionarioBean.remove(funcionario)}" immediate="true">
@@ -106,8 +109,8 @@
 								<f:setPropertyActionListener value="#{funcionario}" 
 										target="#{funcionarioBean.funcionario}" />
 							</h:commandLink>
-						</h:column>
-					</h:dataTable>
+						</rich:column>
+					</rich:dataTable>
 				</h:form>
 			</div>
 		</div>
