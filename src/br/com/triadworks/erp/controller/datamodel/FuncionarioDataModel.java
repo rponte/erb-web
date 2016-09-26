@@ -2,6 +2,8 @@ package br.com.triadworks.erp.controller.datamodel;
 
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.model.DataVisitor;
@@ -12,6 +14,8 @@ import org.ajax4jsf.model.SequenceRange;
 import br.com.triadworks.erp.dao.FuncionarioDao;
 import br.com.triadworks.erp.modelo.Funcionario;
 
+@ViewScoped
+@ManagedBean
 public class FuncionarioDataModel extends ExtendedDataModel<Funcionario> {
 	
 	private Integer rowKey;
