@@ -18,9 +18,18 @@
 			</ul>
 		</div>
 		
-		<h:messages id="msg" errorClass="errors" infoClass="notice" />
+		<a4j:outputPanel ajaxRendered="true">
+			<h:messages id="msg" errorClass="errors" infoClass="notice" />
+		</a4j:outputPanel>
 		
 		<div id="conteudo">
+			<div id="ajax-loading">
+				<a4j:status>
+					<f:facet name="start">
+	                    <h:graphicImage library="imagens" name="ajax-loader.gif" />
+	                </f:facet>
+				</a4j:status>
+			</div>
 			<div id="container">
 				<h:form id="form">
 					<h1>
@@ -71,7 +80,7 @@
 						</h:commandLink >
 						&#160;
 						<h:commandButton value="Salvar" action="#{funcionarioBean.salva}">
-							<f:ajax execute="@form" render="@form :msg"/>
+							<f:ajax execute="@form" render="@form"/>
 						</h:commandButton>
 					</div>
 					
