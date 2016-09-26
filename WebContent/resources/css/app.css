@@ -573,14 +573,17 @@ label {
 	padding-top: 5px;
 }
 
-/**
+/*****
  * Richfaces
- */
+ *****/
 
 form {
 	text-align: left;
 }
 
+/**
+ * rich:calendar
+ */
 .rf-cal {
 	text-align: left; /* nao funcionou! */
 }
@@ -588,3 +591,24 @@ form {
 .rf-cal-inp {
 	display: inline;
 }
+
+/**
+ * rich:select
+ */
+ .rf-sel-inp {
+ 	display: inline;
+ 	padding-bottom: 5px;
+ }
+ 
+ .rf-sel-cntr {
+ 	padding-bottom: 5px;
+ }
+ 
+ .rf-sel-lst-scrl {
+ 	text-align: left;
+ }
+ 
+ .rf-sel-btn {
+ 	padding-top: 5px;
+ 	padding-bottom: 5px;
+ }
