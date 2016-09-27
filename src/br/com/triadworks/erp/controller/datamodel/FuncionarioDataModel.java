@@ -2,8 +2,6 @@ package br.com.triadworks.erp.controller.datamodel;
 
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.model.DataVisitor;
@@ -14,14 +12,11 @@ import org.ajax4jsf.model.SequenceRange;
 import br.com.triadworks.erp.dao.FuncionarioDao;
 import br.com.triadworks.erp.modelo.Funcionario;
 
-@ViewScoped
-@ManagedBean
 public class FuncionarioDataModel extends ExtendedDataModel<Funcionario> {
 	
 	private Integer rowKey;
-	private Integer count;
 	private List<Funcionario> lista;
-	private int firstRow = -1;
+	private Integer count;
 	
 	private FuncionarioDao dao;
 	
@@ -41,21 +36,21 @@ public class FuncionarioDataModel extends ExtendedDataModel<Funcionario> {
 
 	@Override
 	public void walk(FacesContext ctx, DataVisitor visitor, Range range, Object argumento) {
-		int firstRow = ((SequenceRange) range).getFirstRow();
-		if (this.firstRow != firstRow) {
-			int totalDeLinhas = ((SequenceRange) range).getRows();
-			this.lista = dao.listaPaginada(firstRow, totalDeLinhas);
-			for (int i = 0; i < lista.size(); i++) {
-			    visitor.process(ctx, i, argumento);
-			}
+		
+		int inicio = ((SequenceRange) range).getFirstRow();
+		int totalDeLinhas = ((SequenceRange) range).getRows();
+		
+		this.lista = dao.listaPaginada(inicio, totalDeLinhas);
+		for (int i = 0; i < lista.size(); i++) {
+		    visitor.process(ctx, i, argumento);
 		}
 	}
 
 	@Override
 	public int getRowCount() {
-		if (count == null){
-            count = dao.contaTodos();
-        }
+		if (count == null) {
+			this.count = dao.contaTodos();
+		}
 		return count;
 	}
 
