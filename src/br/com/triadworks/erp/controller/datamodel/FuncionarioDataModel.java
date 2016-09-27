@@ -26,13 +26,9 @@ public class FuncionarioDataModel extends ExtendedDataModel<Funcionario> {
 	private FuncionarioDao dao;
 	
 	public FuncionarioDataModel() {
-		this(new FuncionarioDao());
+		this.dao = new FuncionarioDao();
 	}
 	
-	public FuncionarioDataModel(FuncionarioDao dao) {
-		this.dao = dao;
-	}
-
 	@Override
 	public Object getRowKey() {
 		return rowKey;
